@@ -6,15 +6,15 @@
 #include <iostream>
 #endif
 
-bool BaseArchive::error_handler (const int& error) {
+bool BaseArchive::error_handler(const int &error) {
     if (error == ARCHIVE_OK)
-	return true;
+        return true;
     if (error == ARCHIVE_EOF)
-	return false;
+        return false;
     if (error < ARCHIVE_OK)
-	std::cerr << archive_error_string(main) << std::endl;
+        std::cerr << archive_error_string(main) << std::endl;
     if (error == ARCHIVE_FATAL)
-	throw ErrorClass(archive_error_string(main));
+        throw ErrorClass(archive_error_string(main));
 
 #ifndef NDEBUG
     std::cerr << "error functuion is end!" << std::endl;
@@ -22,14 +22,11 @@ bool BaseArchive::error_handler (const int& error) {
 #endif
 }
 
+ErrorClass::ErrorClass(const char *code)
+    : message(code)
+{}
 
-
-
-
-ErrorClass::ErrorClass (const char* code) : message(code) {
-
-}
-
-const char* ErrorClass::what () {
+const char *ErrorClass::what()
+{
     return message;
 }
