@@ -1,2 +1,2 @@
 # hpp-archive
-cpp wrapper to libarchive
+Simple cpp wrapper to libarchive
