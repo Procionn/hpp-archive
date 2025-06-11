@@ -2,7 +2,6 @@
 
 #include <exception>
 #include <filesystem>
-#include <iterator>
 
 class ErrorClass : public std::exception
 {
@@ -73,7 +72,7 @@ public:
 
     void write_on_disk(archive* disk = nullptr, archive_entry* = nullptr);
 
-    void set_directory(const std::filesystem::path& directory);
+    void set_export_directory(const std::filesystem::path& directory);
 
     Iterator begin();
     Iterator end();
@@ -85,8 +84,21 @@ public:
 
 class ArchiveWriter : BaseArchive
 {
+protected:
+    std::filesystem::path path;
+    static constexpr unsigned divisor = 8192;
+
 public:
     ArchiveWriter(const std::filesystem::path& archivePath);
 
-    ~ArchiveWriter() = default;
+    virtual ~ArchiveWriter();
+
+    void write_in_archive(const std::filesystem::path& path,
+                          const std::filesystem::path& pathInArchive = "");
+
+protected:
+    virtual void open();
+
+    void write_file(const std::filesystem::path& target);
+
 };

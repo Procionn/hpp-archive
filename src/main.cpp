@@ -5,13 +5,18 @@
 
 int main() {
     setlocale(LC_ALL, "");
+#if 0
     ArchiveReader archive("tst.tar.gz");
-    archive.set_directory("testing/tmp");
+    // archive.set_directory("testing/tmp");
 
     for (auto* entry : archive) {
         archive.write_on_disk();
     }
+#endif
+    ArchiveWriter archive("testing_archive");
 
+    archive.write_in_archive("first.gif");
+    archive.write_in_archive("CMakeFiles", "CMake");
 
 
 

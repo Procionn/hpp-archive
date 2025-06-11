@@ -2,8 +2,6 @@
 
 #include <archive.h>
 #include <archive_entry.h>
-#include <cassert>
-#include <cstring>
 
 #define e(code) error_handler(code)
 
@@ -64,7 +62,7 @@ void ArchiveReader::write_on_disk (archive* disk, archive_entry* entry) {
 }
 
 
-void ArchiveReader::set_directory (const std::filesystem::path& dir) {
+void ArchiveReader::set_export_directory (const std::filesystem::path& dir) {
     directory = dir;
 }
 
