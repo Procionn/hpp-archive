@@ -31,6 +31,7 @@ ArchiveReader::ArchiveReader (const std::filesystem::path& archivePath) {
 
 
 ArchiveReader::~ArchiveReader () {
+    e(archive_read_close(main));
     e(archive_read_free(main));
 }
 

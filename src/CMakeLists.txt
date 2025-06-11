@@ -10,10 +10,3 @@ target_link_libraries(HPP_ARCHIVE
 	PRIVATE
 	archive
 )
-
-add_executable(MAIN
-	main.cpp
-)
-target_link_libraries(MAIN
-	HPP_ARCHIVE
-)
