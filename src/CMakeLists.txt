@@ -10,7 +10,3 @@ target_link_libraries(HPP_ARCHIVE
 	PRIVATE
 	archive
 )
-
-target_include_directories(HPP_ARCHIVE PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
