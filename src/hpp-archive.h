@@ -33,7 +33,7 @@ protected:
 
 
 
-class ArchiveReader : BaseArchive
+class ArchiveReader : public BaseArchive
 {
 friend class Iterator;
 class Iterator
@@ -82,7 +82,7 @@ public:
 
 
 
-class ArchiveWriter : BaseArchive
+class ArchiveWriter : public BaseArchive
 {
 protected:
     std::filesystem::path path;
