@@ -26,7 +26,7 @@ ArchiveReader::ArchiveReader (const std::filesystem::path& archivePath) {
         throw ErrorClass("error when opening archive");
     e(archive_read_support_format_all(main));
     e(archive_read_support_filter_all(main));
-    e(archive_read_open_filename(main, archivePath.c_str(), 10240));
+    e(archive_read_open_filename(main, archivePath.u8string().c_str(), 10240));
 }
 
 
@@ -47,7 +47,7 @@ void ArchiveReader::write_on_disk (const std::filesystem::path& filename, archiv
         throw ErrorClass("error when creating a file on disk");
     if (!entry)
         entry = this->entry;
-    archive_entry_set_pathname_utf8(entry, filename.c_str());
+    archive_entry_set_pathname_utf8(entry, filename.u8string().c_str());
     writing_file(disk, entry);
 }
 
@@ -58,7 +58,7 @@ void ArchiveReader::write_on_disk (archive* disk, archive_entry* entry) {
     if (!entry)
         entry = this->entry;
     if (!directory.empty())
-        archive_entry_set_pathname_utf8(entry, (directory / archive_entry_pathname_utf8(entry)).c_str());
+        archive_entry_set_pathname_utf8(entry, (directory / archive_entry_pathname_utf8(entry)).u8string().c_str());
     writing_file(disk, entry);
 }
 

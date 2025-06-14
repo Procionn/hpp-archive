@@ -3,9 +3,8 @@
 #include <archive.h>
 #include <archive_entry.h>
 
-#ifndef NDEBUG
 #include <iostream>
-#endif
+
 bool error_handl(const int &error, archive* main) {
     if (error == ARCHIVE_OK)
         return true;
@@ -16,10 +15,8 @@ bool error_handl(const int &error, archive* main) {
     if (error == ARCHIVE_FATAL)
         throw ErrorClass(archive_error_string(main));
 
-#ifndef NDEBUG
     std::cerr << "error functuion is end!" << std::endl;
-    return true;
-#endif
+    return false;
 }
 
 
