@@ -18,5 +18,5 @@ FetchContent_MakeAvailable(libarchive)
 
 target_link_libraries(HPP_ARCHIVE
 	PRIVATE
-	libarchive
+	archive
 )
