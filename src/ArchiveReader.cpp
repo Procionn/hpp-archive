@@ -53,7 +53,7 @@ void ArchiveReader::write_on_disk (const std::filesystem::path& filename, archiv
 
 
 void ArchiveReader::write_on_disk (archive* disk, archive_entry* entry) {
-    if (!disk);
+    if (!disk)
         disk = archive_write_disk_new();
     if (!entry)
         entry = this->entry;
