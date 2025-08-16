@@ -1,21 +1,6 @@
 #pragma once
 
-#include <exception>
 #include <filesystem>
-
-class ErrorClass : public std::exception
-{
-public:
-    ErrorClass(const char*);
-    const char* what();
-
-private:
-    const char* message;
-};
-
-
-
-
 
 class BaseArchive
 {

@@ -13,7 +13,7 @@ bool error_handl(const int &error, archive* main) {
     if (error < ARCHIVE_OK)
         std::cerr << archive_error_string(main) << std::endl;
     if (error == ARCHIVE_FATAL)
-        throw ErrorClass(archive_error_string(main));
+        throw std::runtime_error(archive_error_string(main));
 
     std::cerr << "error functuion is end!" << std::endl;
     return false;

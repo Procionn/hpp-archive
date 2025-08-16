@@ -2,6 +2,7 @@
 
 #include <archive.h>
 #include <archive_entry.h>
+// #include <stdexcept>
 
 #define e(code) error_handler(code)
 
@@ -23,7 +24,7 @@ void ArchiveReader::writing_file (archive* disk, archive_entry* entry) {
 ArchiveReader::ArchiveReader (const std::filesystem::path& archivePath) {
     main = archive_read_new();
     if (!main)
-        throw ErrorClass("error when opening archive");
+        throw std::runtime_error("error when opening archive");
     e(archive_read_support_format_all(main));
     e(archive_read_support_filter_all(main));
     e(archive_read_open_filename(main, archivePath.u8string().c_str(), 10240));
@@ -44,7 +45,7 @@ const char* ArchiveReader::get_target_filename () {
 void ArchiveReader::write_on_disk (const std::filesystem::path& filename, archive_entry* entry) {
     auto* disk = archive_write_disk_new();
     if (!disk)
-        throw ErrorClass("error when creating a file on disk");
+        throw std::runtime_error("error when creating a file on disk");
     if (!entry)
         entry = this->entry;
     archive_entry_set_pathname_utf8(entry, filename.u8string().c_str());
