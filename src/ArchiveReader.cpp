@@ -53,13 +53,18 @@ void ArchiveReader::write_on_disk (const std::filesystem::path& filename, archiv
 
 
 void ArchiveReader::write_on_disk (archive* disk, archive_entry* entry) {
-    if (!disk)
+    bool diskLocal = false;
+    if (!disk) {
         disk = archive_write_disk_new();
+        diskLocal = true;
+    }
     if (!entry)
         entry = this->entry;
     if (!directory.empty())
         archive_entry_set_pathname_utf8(entry, (directory / archive_entry_pathname_utf8(entry)).u8string().c_str());
     writing_file(disk, entry);
+    if (diskLocal)
+        archive_write_free(disk);
 }
 
 
