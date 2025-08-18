@@ -2,7 +2,6 @@
 
 #include <archive.h>
 #include <archive_entry.h>
-// #include <stdexcept>
 
 #define e(code) error_handler(code)
 
@@ -27,7 +26,11 @@ ArchiveReader::ArchiveReader (const std::filesystem::path& archivePath) {
         throw std::runtime_error("error when opening archive");
     e(archive_read_support_format_all(main));
     e(archive_read_support_filter_all(main));
+#ifdef __linux__
     e(archive_read_open_filename(main, archivePath.u8string().c_str(), 10240));
+#elif WIN32
+    e(archive_read_open_filename_w(main, archivePath.wstring().c_str(), 10240));
+#endif
 }
 
 
@@ -48,7 +51,12 @@ void ArchiveReader::write_on_disk (const std::filesystem::path& filename, archiv
         throw std::runtime_error("error when creating a file on disk");
     if (!entry)
         entry = this->entry;
+#ifdef __linux__
     archive_entry_set_pathname_utf8(entry, filename.u8string().c_str());
+#elif WIN32
+    archive_entry_copy_pathname_w(entry, filename.wstring().c_str());
+#endif
+
     writing_file(disk, entry);
 }
 
@@ -62,7 +70,11 @@ void ArchiveReader::write_on_disk (archive* disk, archive_entry* entry) {
     if (!entry)
         entry = this->entry;
     if (!directory.empty())
+#ifdef __linux__
         archive_entry_set_pathname_utf8(entry, (directory / archive_entry_pathname_utf8(entry)).u8string().c_str());
+#elif WIN32
+        archive_entry_copy_pathname_w(entry, (directory / archive_entry_pathname_w(entry)).wstring().c_str());
+#endif
     writing_file(disk, entry);
     if (diskLocal)
         archive_write_free(disk);

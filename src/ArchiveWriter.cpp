@@ -22,7 +22,12 @@ void ArchiveWriter::write_in_archive(const std::filesystem::path& path,
     if (is_directory(path)) {
         for (const auto& target : std::filesystem::recursive_directory_iterator(path)) {
             std::filesystem::path relative_path = std::filesystem::relative(target.path(), path);
+
+#ifdef __linux__
             archive_entry_set_pathname(entry, (pathInArchive / relative_path).u8string().c_str());
+#elif WIN32
+            archive_entry_copy_pathname_w(entry, (pathInArchive / relative_path).wstring().c_str());
+#endif
 
             if (target.is_directory()) {
                 archive_entry_set_filetype(entry, AE_IFDIR);
@@ -51,7 +56,11 @@ void ArchiveWriter::open () {
     archive_write_set_format_pax_restricted(main);
     archive_write_add_filter_zstd(main);
 
+#ifdef __linux__
     archive_write_open_filename(main, (path += ".tar.zst").u8string().c_str());
+#elif WIN32
+    archive_write_open_filename_w(main, (path += ".tar.zst").wstring().c_str());
+#endif
 }
 
 
