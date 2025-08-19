@@ -51,7 +51,11 @@ public:
 
     ~ArchiveReader();
 
+#ifdef __linux__
     const char* get_target_filename();
+#elif WIN64
+    const wchar_t* get_target_filename();
+#endif
 
     void write_on_disk(const std::filesystem::path& filename, archive_entry* = nullptr);
 

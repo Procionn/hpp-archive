@@ -40,8 +40,13 @@ ArchiveReader::~ArchiveReader () {
 }
 
 
+#ifdef __linux__
 const char* ArchiveReader::get_target_filename () {
     return archive_entry_pathname_utf8(entry);
+#elif WIN64
+const wchar_t* ArchiveReader::get_target_filename() {
+    return archive_entry_pathname_w(entry);
+#endif
 }
 
 
