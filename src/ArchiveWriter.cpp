@@ -43,7 +43,11 @@ void ArchiveWriter::write_in_archive(const std::filesystem::path& path,
         }
     }
     else if (is_regular_file(path)) {
+#ifdef __linux__
         archive_entry_set_pathname(entry, (pathInArchive / path.filename()).u8string().c_str());
+#elif WIN32
+        archive_entry_copy_pathname_w(entry, (pathInArchive /  path.filename()).wstring().c_str());
+#endif
         write_file(path);
     }
 
