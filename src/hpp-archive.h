@@ -21,6 +21,7 @@ protected:
 class ArchiveReader : public BaseArchive
 {
 friend class Iterator;
+friend class ArchiveWriter;
 class Iterator
     {
         signed char pos = 0;
@@ -76,14 +77,18 @@ class ArchiveWriter : public BaseArchive
 protected:
     std::filesystem::path path;
     static constexpr unsigned divisor = 8192;
+    std::filesystem::path expansion;
 
 public:
-    ArchiveWriter(const std::filesystem::path& archivePath);
+    ArchiveWriter(const std::filesystem::path& archivePath,
+                  const std::filesystem::path& expansion = ".tar.zst");
 
     virtual ~ArchiveWriter();
 
     void write_in_archive(const std::filesystem::path& path,
                           const std::filesystem::path& pathInArchive = "");
+
+    void clone(ArchiveReader*);
 
 protected:
     virtual void open();
