@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <functional>
 
 class BaseArchive
 {
@@ -91,8 +92,11 @@ public:
     void clone(ArchiveReader*);
 
 protected:
-    virtual void open();
+    ArchiveWriter(const std::filesystem::path& archivePath,
+                  const std::filesystem::path& expansion,
+                  std::function<void(struct archive* main)> openFunc);
 
     void write_file(const std::filesystem::path& target);
+    void open_file();
 
 };

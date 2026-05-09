@@ -27,7 +27,7 @@ ArchiveReader::ArchiveReader (const std::filesystem::path& archivePath) {
     e(archive_read_support_format_all(main));
     e(archive_read_support_filter_all(main));
 #ifdef __linux__
-    e(archive_read_open_filename(main, archivePath.u8string().c_str(), 10240));
+    e(archive_read_open_filename(main, archivePath.string().c_str(), 10240));
 #elif WIN32
     e(archive_read_open_filename_w(main, archivePath.wstring().c_str(), 10240));
 #endif
@@ -57,7 +57,7 @@ void ArchiveReader::write_on_disk (const std::filesystem::path& filename, archiv
     if (!entry)
         entry = this->entry;
 #ifdef __linux__
-    archive_entry_set_pathname_utf8(entry, filename.u8string().c_str());
+    archive_entry_set_pathname_utf8(entry, filename.string().c_str());
 #elif WIN32
     archive_entry_copy_pathname_w(entry, filename.wstring().c_str());
 #endif
@@ -76,7 +76,7 @@ void ArchiveReader::write_on_disk (archive* disk, archive_entry* entry) {
         entry = this->entry;
     if (!directory.empty())
 #ifdef __linux__
-        archive_entry_set_pathname_utf8(entry, (directory / archive_entry_pathname_utf8(entry)).u8string().c_str());
+        archive_entry_set_pathname_utf8(entry, (directory / archive_entry_pathname_utf8(entry)).string().c_str());
 #elif WIN32
         archive_entry_copy_pathname_w(entry, (directory / archive_entry_pathname_w(entry)).wstring().c_str());
 #endif
